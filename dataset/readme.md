@@ -1,5 +1,6 @@
-## Works with Blender 2.79b
-Download blender 2.79b from https://download.blender.org/release/Blender2.79/ and add it to environment path 
+## To render depthmaps from different viewpoints
+Download blender 2.79b from https://download.blender.org/release/Blender2.79/ and add it to environment path .
+
 
 
 Run the following command to render depthmaps with resolution res for category with ID cid
