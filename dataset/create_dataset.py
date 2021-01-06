@@ -11,6 +11,7 @@ import json
 
 category_mapping = {'02691156': 'airplane', '03001627': 'chair', '04256520': 'sofa', '04379243': 'table', '02958343': 'car'}
 
+
 def run_process(args, cat_id, model_id):
 	model_path = os.path.join(args.shapenet_path, cat_id, model_id, "models", "model_normalized.obj")
 	output_dir = os.path.join(args.output_path, cat_id)
@@ -25,7 +26,8 @@ def run_process(args, cat_id, model_id):
 	except Exception as e:
 		print("Failed for the model: {} with error {} ", model_id, e)
 
-if __name__=='__main__':	
+
+if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Render depthmaps for shapenet models')
 	parser.add_argument('--shapenet_path', type=str, default="../data/ShapeNetCore.v2/", help='path to the shapenet models')
 	parser.add_argument('--output_path', type=str, default="../data/blender_data")
@@ -39,7 +41,6 @@ if __name__=='__main__':
 	parser.add_argument('--camera_path', type=str, default='./camPosListDodecAzEl.txt', help='path to the file with viewpoints')
 	args = parser.parse_args()
 
-
 	resolution = args.resolution
 
 	if args.all_categories:
@@ -47,7 +48,7 @@ if __name__=='__main__':
 		args.categories = os.listdir(args.shapenet_path)		
 
 	if not os.path.exists(args.output_path):
-		print("The directory "+args.output_path +" does not exist. Creating new directory...")
+		print("The directory " + args.output_path + " does not exist. Creating new directory...")
 		os.mkdir(args.output_path)
 
 	args.output_path = os.path.join(args.output_path, "blender_depthmaps_"+str(resolution)+"x"+str(resolution))
@@ -70,4 +71,3 @@ if __name__=='__main__':
 		with Pool(processes=args.nproc) as pool:
 			pool.map(func, models)
 		shutil.rmtree(os.path.join(args.output_path, cat))
-
