@@ -1,5 +1,3 @@
-![Illustration](imgs/teaser.jpg)
-
 # Improved Modeling of 3D Shapes with Multi-view Depth Maps
 
 PyTorch implementation of [Improved Modeling of 3D Shapes with Multi-view Depth Maps](https://kampta.github.io/multiview-shapes/).
@@ -12,6 +10,8 @@ Accepted as an Oral paper in [3DV](http://3dv2020.dgcv.nii.ac.jp).
 
 [Long Video](https://youtu.be/m1nZprFnUu0)
 
+
+![Illustration](imgs/teaser.gif)
 
 
 If you use this code in your work, please cite
@@ -36,14 +36,31 @@ Refer to [dataset/README.md](dataset/README.md) for details on data generation.
 Then model training is done in two steps. In the first step, we train an encoder-decoder architecture which takes
 a depthmap as input to encoder. The latent representation learned by encoder is used by view-conditioned generator which
 generates depthmap from any given viewpoint.
+Note that stylegan2 generator model is borrowed from [this repo](https://github.com/rosinality/stylegan2-pytorch).
 
 In the second step, we train an Implicit Maximum Likelihood Expectation (IMLE) model on top of the latent codes learned
 in the first step.
 
 ### Training the encoder-decoder framework
-
+```
+python train_ae_avg.py /path/to/data \
+    --ckpt_save_directory /path/to/output/model/checkpoints \
+    --sample_save_directory /path/to/output/samples \
+    --wandb --no_noise \
+    --categories airplane \
+    --d_reg_every 0 --g_reg_every 0 \
+    --iter 75001 --batch 24 --num_vps 2 \
+    --loader_type blender --load_sil --lr 0.004 \
+    --channel_multiplier 1 --bins 256 --size 64 --val_batch 8 \
+    --use_pretrained_if_available \
+    --exp_name airplane_blender_base_avg_cm1_bins_256_size_64
+```
 ### Training the IMLE
+Dump the latent codes of the model learned in the previous step and train IMLE as following
 
+```
+python train_imle.py
+```
 
 ## Evaluation
 We have borrowed the code for computing CD and CMD from [this repo](https://github.com/zekunhao1995/pcgan-pytorch/).

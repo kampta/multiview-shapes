@@ -129,7 +129,7 @@ def main(args):
     torch.save(icpt.icp.netT.state_dict(), args.model_save_name)
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train IMLE on the shape codes')
     parser.add_argument('--path', type=str, default='../data/shape_codes.npy', help='path to the shape codes')
     parser.add_argument('--e_dim', type=int, default=32)
